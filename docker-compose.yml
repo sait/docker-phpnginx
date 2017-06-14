@@ -1,0 +1,38 @@
+version: "2"
+
+services:
+
+ nginx:
+  image: nginx:alpine
+  depends_on:
+   - php
+  links:
+   - php
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx.default.conf:/etc/nginx/conf.d/default.conf:ro
+    - ./www:/home/www
+
+
+ php:
+  build: ./php
+  environment:
+    - MYSQL_PASSWORD=superman
+  depends_on:
+    - mysql
+  links:
+    - mysql
+  volumes:
+    - ./www:/home/www
+    - ./php.ini:/usr/local/etc/php/php.ini
+
+
+ mysql:
+  image: mariadb:10.1
+  environment:
+   - MYSQL_ROOT_PASSWORD=superman
+  volumes:
+   - ./mysql:/var/lib/mysql
+  ports:
+   - "3306:3306"
