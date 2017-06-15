@@ -20,21 +20,21 @@ services:
   build: ./php
   environment:
     - MYSQL_PASSWORD=superman
- # depends_on:
- #   - mysql
- # links:
- #   - mysql
+  depends_on:
+    - mysql
+  links:
+    - mysql
   volumes:
     - ./homeapp:/home/app
     - ./php.ini:/usr/local/etc/php/php.ini
     - ./log/php/php.error.log:/tmp/php.error.log
 
 
-# mysql:
-#  image: mariadb:10.1
-#  environment:
-#   - MYSQL_ROOT_PASSWORD=superman
-#  volumes:
-#   - ./mysql:/var/lib/mysql
-#  ports:
-#   - "3306:3306"
+ mysql:
+  image: mariadb:10.1
+  environment:
+   - MYSQL_ROOT_PASSWORD=superman
+  volumes:
+   - ./mysql:/var/lib/mysql
+  ports:
+   - "3306:3306"
